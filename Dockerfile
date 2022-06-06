@@ -10,7 +10,6 @@ RUN apt-get -qq update && \
 ARG ARKIME_VERSION=3.4.2
 ARG UBUNTU_VERSION
 ARG ARKIME_DEB_PACKAGE="arkime_"$ARKIME_VERSION"-1_amd64.deb"
-
 # Declare envs vars for each arg
 ENV ARKIME_VERSION $ARKIME_VERSION
 ENV ES_HOST "elasticsearch"
@@ -25,8 +24,9 @@ ENV VIEWER "on"
 # Install Arkime
 RUN mkdir -p /data && \
     cd /data && \
-    curl -C - -O "https://s3.amazonaws.com/files.molo.ch/builds/ubuntu-"$UBUNTU_VERSION"/"$ARKIME_DEB_PACKAGE && \
-    dpkg -i $ARKIME_DEB_PACKAGE || true && \
+    # curl -C - -O "https://s3.amazonaws.com/files.molo.ch/builds/ubuntu-"$UBUNTU_VERSION"/"$ARKIME_DEB_PACKAGE && \
+    curl -C - -O "https://s3.amazonaws.com/files.molo.ch/arkime-main_ubuntu20_amd64.deb" && \
+    dpkg -i "arkime-main_ubuntu20_amd64.deb" || true && \
     apt-get install -yqf && \
     mv $ARKIMEDIR/etc /data/config && \
     ln -s /data/config $ARKIMEDIR/etc && \
@@ -34,7 +34,7 @@ RUN mkdir -p /data && \
     ln -s /data/pcap $ARKIMEDIR/raw
 # clean up
 RUN rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/cache/* && \
-    rm /data/$ARKIME_DEB_PACKAGE
+    rm /data/arkime-main_ubuntu20_amd64.deb
 
 # add scripts
 ADD /scripts /data/
