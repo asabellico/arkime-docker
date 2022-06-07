@@ -72,7 +72,7 @@ http://localhost:8005
 To import existing pcap files have a look at `scripts/arkime-parse-pcap-folder.sh` script. It can be run within the running container:
 
 ```shell
-docker exec -it <container_name> \
+docker-compose exec arkime \
     /data/arkime-parse-pcap-folder.sh -d <directory_with_pcap_files> -t <tag>
 ```
 
